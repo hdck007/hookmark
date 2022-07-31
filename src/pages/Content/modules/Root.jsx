@@ -117,6 +117,7 @@ const Root = ({ uuid }) => {
           borderRadius: '20px 0 0 20px',
           display: 'flex',
           flexDirection: 'column',
+          zIndex: 100000,
         }}
         open={isOpen}
         onClose={toggleDrawer}

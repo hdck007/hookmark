@@ -23,7 +23,10 @@ const HookComponent = ({ uuid }) => {
 
   const handleHookClick = (hook) => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.tabs.sendMessage(tabs[0].id, { type: 'travel', payload: hook });
+      chrome.tabs.create({
+        url: hook.baseuri,
+        active: true,
+      });
     });
   };
 

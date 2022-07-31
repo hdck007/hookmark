@@ -126,9 +126,32 @@ export default function getAndUpdateUrlData() {
       const recommender = document.createElement('div');
       recommender.innerHTML = recommenderString;
       recommender.style.position = 'absolute';
-      recommender.style.backgroundColor = 'transparent';
+      recommender.style.padding = '10px';
+      recommender.style.backgroundColor = 'black';
       recommender.style.top = '20%';
       recommender.style.right = '0';
+      const button = document.createElement('button');
+      button.innerText = 'Close';
+      button.style.position = 'absolute';
+      button.style.top = '15%';
+      button.style.zIndex = 9999;
+      button.style.right = '10px';
+      button.style.backgroundColor = 'black';
+      button.style.color = 'white';
+      button.style.border = 'none';
+      button.style.padding = '10px 20px';
+      button.style.borderRadius = '500px';
+      button.style.fontSize = '20px';
+      button.addEventListener('click', (e) => {
+        if (button.innerText === 'Close') {
+          recommender.style.display = 'none';
+          button.innerText = 'Open';
+        } else {
+          recommender.style.display = 'block';
+          button.innerText = 'Close';
+        }
+      })
+      document.body.appendChild(button);
       recommender.addEventListener('click', (e) => {
         e.preventDefault();
         try {
