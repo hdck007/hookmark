@@ -3,8 +3,6 @@ import baseUrl from './modules/constants';
 import createTheReactInstance from './modules/scripts/createReactInstance';
 import getAndUpdateUrlData from './modules/scripts/getAndUpdateUrlData';
 
-let USER_UUID = '';
-
 if (window.location.href.includes('google.com')) {
   getAndUpdateUrlData();
 } else {
@@ -33,119 +31,121 @@ chrome.runtime.onMessage.addListener(async function (
   sender,
   sendResponse
 ) {
+  console.log(message);
   await chrome.storage.local.get(['uuid'], (result) => {
-    USER_UUID = result.uuid;
-  });
-  switch (message.type) {
-    case 'createHook': {
-      const selection = window.getSelection();
-      if (selection.focusNode && USER_UUID) {
-        const element = selection.focusNode.parentElement;
-        const title = element.innerText;
-        const baseuri = element.baseURI;
-        const id = selection.focusNode.parentElement.getAttribute('id');
-        const classAttr =
-          selection.focusNode.parentElement.getAttribute('class');
-        if (id) {
-          fetch(`${baseUrl}/hookmark/add`, {
-            method: 'POST',
-            body: JSON.stringify({
-              title,
-              user: USER_UUID,
-              attributeName: 'id',
-              attributeValue: id,
-              baseuri,
-            }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              Swal.fire({
-                title: 'Hook created',
-                text: 'You can now use this hook in extension',
-                icon: 'success',
-                confirmButtonText: 'Cool',
+    if (result?.uuid) {
+      switch (message.type) {
+        case 'createHook': {
+          const selection = window.getSelection();
+          if (selection.focusNode && result.uuid) {
+            const element = selection.focusNode.parentElement;
+            const title = element.innerText;
+            const baseuri = element.baseURI;
+            const id = selection.focusNode.parentElement.getAttribute('id');
+            const classAttr =
+              selection.focusNode.parentElement.getAttribute('class');
+            if (id) {
+              fetch(`${baseUrl}/hookmark/add`, {
+                method: 'POST',
+                body: JSON.stringify({
+                  title,
+                  user: result.uuid,
+                  attributeName: 'id',
+                  attributeValue: id,
+                  baseuri,
+                }),
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  Swal.fire({
+                    title: 'Hook created',
+                    text: 'You can now use this hook in extension',
+                    icon: 'success',
+                    confirmButtonText: 'Cool',
+                  });
+                });
+            } else if (classAttr) {
+              fetch(`${baseUrl}/hookmark/add`, {
+                method: 'POST',
+                body: JSON.stringify({
+                  title,
+                  user: result.uuid,
+                  attributeName: 'class',
+                  attributeValue: classAttr,
+                  baseuri,
+                }),
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  Swal.fire({
+                    title: 'Hook created',
+                    text: 'You can now use this hook in extension',
+                    icon: 'success',
+                    confirmButtonText: 'Cool',
+                  });
+                });
+            } else {
+              fetch(`${baseUrl}/hookmark/add`, {
+                method: 'POST',
+                body: JSON.stringify({
+                  title,
+                  user: result.uuid,
+                  baseuri,
+                }),
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  Swal.fire({
+                    title: 'Hook created',
+                    text: 'You can now use this hook in extension',
+                    icon: 'success',
+                    confirmButtonText: 'Cool',
+                  });
+                });
+            }
+          } else {
+            const title = document.location.origin;
+            const baseuri = document.baseURI;
+            fetch(`${baseUrl}/hookmark/add`, {
+              method: 'POST',
+              body: JSON.stringify({
+                title,
+                user: result.uuid,
+                baseuri,
+              }),
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                Swal.fire({
+                  title: 'Hook created',
+                  text: 'You can now use this hook in extension',
+                  icon: 'success',
+                  confirmButtonText: 'Cool',
+                });
               });
-            });
-        } else if (classAttr) {
-          fetch(`${baseUrl}/hookmark/add`, {
-            method: 'POST',
-            body: JSON.stringify({
-              title,
-              user: USER_UUID,
-              attributeName: 'class',
-              attributeValue: classAttr,
-              baseuri,
-            }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              Swal.fire({
-                title: 'Hook created',
-                text: 'You can now use this hook in extension',
-                icon: 'success',
-                confirmButtonText: 'Cool',
-              });
-            });
-        } else {
-          fetch(`${baseUrl}/hookmark/add`, {
-            method: 'POST',
-            body: JSON.stringify({
-              title,
-              user: USER_UUID,
-              baseuri,
-            }),
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              Swal.fire({
-                title: 'Hook created',
-                text: 'You can now use this hook in extension',
-                icon: 'success',
-                confirmButtonText: 'Cool',
-              });
-            });
+          }
+          sendResponse('success');
+          break;
         }
-      } else {
-        const title = document.head.title;
-        const baseuri = document.baseURI;
-        fetch(`${baseUrl}/hookmark/add`, {
-          method: 'POST',
-          body: JSON.stringify({
-            title,
-            user: USER_UUID,
-            baseuri,
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            Swal.fire({
-              title: 'Hook created',
-              text: 'You can now use this hook in extension',
-              icon: 'success',
-              confirmButtonText: 'Cool',
-            });
-          });
+        case 'travel': {
+          window.location.href = message.payload.baseuri;
+          break;
+        }
+        default:
+          break;
       }
-      sendResponse('success');
-      break;
     }
-    case 'travel': {
-      window.location.href = message.payload.baseuri;
-      break;
-    }
-    default:
-      break;
-  }
+  });
 });

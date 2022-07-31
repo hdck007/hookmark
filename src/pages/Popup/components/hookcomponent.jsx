@@ -10,20 +10,20 @@ const HookComponent = ({ uuid }) => {
       fetch(`${baseUrl}/hookmark/${uuid}`)
         .then((res) => res.json())
         .then((data) => {
-          setHooks(data);
+          const hookMap = data.map((hook) => {
+            return {
+              ...hook,
+              title: hook.title ? hook.title : hook.baseuri,
+            };
+          });
+          setHooks(hookMap);
         });
     }
   }, [_, uuid]);
 
   const handleHookClick = (hook) => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.tabs.sendMessage(
-        tabs[0].id,
-        { type: 'travel', payload: hook },
-        () => {
-          refetch((prev) => prev + 1);
-        }
-      );
+      chrome.tabs.sendMessage(tabs[0].id, { type: 'travel', payload: hook });
     });
   };
 
@@ -61,13 +61,14 @@ const HookComponent = ({ uuid }) => {
       >
         Hook it!
       </button>
-      {!!hooks.length &&
+      {Boolean(hooks.length) &&
         hooks.map((hook) => (
           <div
             style={{
               width: '90%',
               cursor: 'pointer',
             }}
+            key={hook.baseuri}
             onClick={() => handleHookClick(hook)}
           >
             <p>
