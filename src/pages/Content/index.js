@@ -33,7 +33,7 @@ function getAndUpdateUrlData() {
       });
     }
   }
-  fetch('http://localhost:3000/website/', {
+  fetch(`${baseUrl}/website/`, {
     method: 'POST',
     body: JSON.stringify({
       websites: urls,
