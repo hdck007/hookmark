@@ -32,7 +32,6 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
   await chrome.storage.local.get(['uuid'], (result) => {
     USER_UUID = result.uuid;
   });
-  console.log(USER_UUID);
   switch (message.type) {
     case 'createHook': {
       const selection = window.getSelection();

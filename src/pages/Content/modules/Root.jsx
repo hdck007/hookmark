@@ -73,7 +73,6 @@ const Root = ({ uuid }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           setComments(data);
           setIsCommentsLoading(false);
         })

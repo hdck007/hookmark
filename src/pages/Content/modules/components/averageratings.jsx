@@ -16,7 +16,6 @@ const AverageRatings = ({ ratings }) => {
       >
         Ratings for this content
       </p>
-      {console.log("This site's ratings: ", Number(ratings))}
       <div
         style={{
           display: 'flex',

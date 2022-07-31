@@ -18,7 +18,6 @@ export default function getAndUpdateUrlData() {
     const element = elements[i].parentElement;
     const url = element.getAttribute('href');
     const currrentUrl = new URL(window.location.href);
-    console.log(elements[i].innerText);
     if (url) {
       const urlObject = new URL(url);
       urls.push({
@@ -126,7 +125,6 @@ export default function getAndUpdateUrlData() {
       });
       const recommender = document.createElement('div');
       recommender.innerHTML = recommenderString;
-      console.log(recommenderString);
       recommender.style.position = 'absolute';
       recommender.style.backgroundColor = 'transparent';
       recommender.style.top = '20%';

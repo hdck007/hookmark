@@ -11,9 +11,7 @@ const CommentComponent = ({ comment, uuid }) => {
   }, [comment.isLiked]);
 
   const handleLikeClick = async () => {
-    console.log('This runs here', comment.id, uuid);
     if (uuid) {
-      console.log('This runs here', comment.id, uuid);
       if (isLiked) {
         await fetch(`${baseUrl}/comment/${comment.id}/dislike/`, {
           method: 'POST',

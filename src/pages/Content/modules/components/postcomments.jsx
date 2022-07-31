@@ -12,7 +12,6 @@ const PostComments = ({ uuid, websiteId, refetch }) => {
   React.useEffect(() => {
     // get my ratings
     if (websiteId && uuid) {
-      console.log('here it is');
       fetch(`${baseUrl}/rating/my/${websiteId}`, {
         headers: {
           'Content-Type': 'application/json',
@@ -25,7 +24,6 @@ const PostComments = ({ uuid, websiteId, refetch }) => {
         .then((res) => res.json())
         .then((data) => {
           if (data?.ratings) {
-            console.log("This my site's ratings: ", data.ratings);
             setRating(Number(data.ratings));
           }
           setIsRatingsLoading(false);
