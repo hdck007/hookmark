@@ -364,16 +364,9 @@ const PostComments = ({ uuid, websiteId, refetch }) => {
       <div
         style={{
           display: 'flex',
-          justifyContent: 'space-between',
+          justifyContent: 'flex-end',
         }}
       >
-        <div
-          style={{
-            flex: '1',
-          }}
-        >
-          <Select menuPlacement="top" options={options} />
-        </div>
         <button
           style={{
             border: 'none',
