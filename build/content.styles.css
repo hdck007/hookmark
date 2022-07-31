@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+  font-family: 'Poppins', sans-serif !important;
+  margin: 0;
+  padding: 0;
+}
+
+.recommender-element {
+  margin: 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.recommender-rating {
+  font-style: none;
+  color: aquamarine;
+}
+
+#side-drawer {
+  font-family: 'Poppins', sans-serif !important;
+  color: black !important;
+}
+
+#side-drawer-button {
+  font-family: 'Poppins', sans-serif !important;
+  color: black !important;
+}
+
+#side-drawer textarea {
+  background-color: transparent !important;
+}
