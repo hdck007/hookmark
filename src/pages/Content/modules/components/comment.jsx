@@ -73,8 +73,7 @@ const CommentComponent = ({ comment, uuid }) => {
         style={{
           fontSize: '12px',
           color: 'gray',
-          position: 'relative',
-          bottom: '10px',
+          paddingTop: '5px 0',
         }}
       >
         {new Date(comment.createdAt).toLocaleDateString('en-gb')}
