@@ -28,7 +28,11 @@ if (window.location.href.includes('google.com')) {
   });
 }
 
-chrome.runtime.onMessage.addListener(async function (message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(async function (
+  message,
+  sender,
+  sendResponse
+) {
   await chrome.storage.local.get(['uuid'], (result) => {
     USER_UUID = result.uuid;
   });
@@ -39,8 +43,9 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
         const element = selection.focusNode.parentElement;
         const title = element.innerText;
         const baseuri = element.baseURI;
-        const id = selection.focusNode.parentElement.getAttribute('id')
-        const classAttr = selection.focusNode.parentElement.getAttribute('class')
+        const id = selection.focusNode.parentElement.getAttribute('id');
+        const classAttr =
+          selection.focusNode.parentElement.getAttribute('class');
         if (id) {
           fetch(`${baseUrl}/hookmark/add`, {
             method: 'POST',
@@ -109,6 +114,29 @@ chrome.runtime.onMessage.addListener(async function (message, sender, sendRespon
               });
             });
         }
+      } else {
+        const title = document.head.title;
+        const baseuri = document.baseURI;
+        fetch(`${baseUrl}/hookmark/add`, {
+          method: 'POST',
+          body: JSON.stringify({
+            title,
+            user: USER_UUID,
+            baseuri,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            Swal.fire({
+              title: 'Hook created',
+              text: 'You can now use this hook in extension',
+              icon: 'success',
+              confirmButtonText: 'Cool',
+            });
+          });
       }
       sendResponse('success');
       break;
