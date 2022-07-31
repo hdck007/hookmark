@@ -6,6 +6,17 @@ import { BsChevronDoubleLeft, BsChevronDoubleRight } from 'react-icons/bs';
 import ReactStars from 'react-rating-stars-component';
 import { AiFillLike, AiFillDislike } from 'react-icons/ai';
 import baseUrl from './constants';
+import Select from 'react-select';
+import Swal from 'sweetalert2';
+
+const options = [
+  { value: 'software-development', label: 'Software Development' },
+  { value: 'entertainment', label: 'Entertainment' },
+  { value: 'art', label: 'Art' },
+  { value: 'food', label: 'Food' },
+  { value: 'travel', label: 'Travel' },
+  { value: 'other', label: 'Other' },
+];
 
 const AverageRatings = ({ ratings }) => {
   return (
@@ -14,8 +25,13 @@ const AverageRatings = ({ ratings }) => {
         padding: '10px',
       }}
     >
-      <p>
-        <strong>Ratings for this content</strong>
+      <p
+        style={{
+          fontWeight: 'bold',
+          fontSize: '18px',
+        }}
+      >
+        Ratings for this content
       </p>
       {console.log("This site's ratings: ", Number(ratings))}
       <div
@@ -64,11 +80,19 @@ const CommentComponent = ({ comment, uuid }) => {
           body: JSON.stringify({
             userId: uuid,
           }),
-        }).then((res) => {
-          if (res.status === 200) {
-            setIsLiked(false);
-          }
-        });
+        })
+          .then((res) => {
+            if (res.status === 200) {
+              setIsLiked(false);
+            }
+          })
+          .catch((err) => {
+            Swal.fire({
+              title: 'Error',
+              text: 'Something went wrong',
+              icon: 'error',
+            });
+          });
       } else {
         await fetch(`${baseUrl}/comment/${comment.id}/like/`, {
           method: 'POST',
@@ -78,18 +102,32 @@ const CommentComponent = ({ comment, uuid }) => {
           body: JSON.stringify({
             userId: uuid,
           }),
-        }).then((res) => {
-          if (res.status === 200) {
-            setIsLiked(true);
-          }
-        });
+        })
+          .then((res) => {
+            if (res.status === 200) {
+              setIsLiked(true);
+            }
+          })
+          .catch((err) => {
+            Swal.fire({
+              title: 'Error',
+              text: 'Something went wrong',
+              icon: 'error',
+            });
+          });
       }
     }
   };
 
   return (
     <div key={'comment' + comment.id}>
-      <p>{comment.data}</p>
+      <p
+        style={{
+          fontSize: '14px',
+        }}
+      >
+        {comment.data}
+      </p>
       <p
         style={{
           fontSize: '12px',
@@ -99,18 +137,20 @@ const CommentComponent = ({ comment, uuid }) => {
         }}
       >
         {new Date(comment.createdAt).toLocaleDateString('en-gb')}
+        &nbsp;&nbsp;
+        <button
+          style={{
+            fontSize: '12px',
+            border: 'none',
+            outline: 'none',
+            background: 'transparent',
+            cursor: 'pointer',
+            color: isLiked ? 'blue' : 'gray',
+          }}
+        >
+          <AiFillLike onClick={handleLikeClick} />
+        </button>
       </p>
-      <button
-        style={{
-          border: 'none',
-          outline: 'none',
-          background: 'transparent',
-          cursor: 'pointer',
-          color: isLiked ? 'blue' : 'gray',
-        }}
-      >
-        <AiFillLike onClick={handleLikeClick} />
-      </button>
     </div>
   );
 };
@@ -131,6 +171,8 @@ const Comments = ({ comments, uuid }) => {
           width: '100%',
           background: 'white',
           fontWeight: 'bold',
+          fontSize: '18px',
+          zIndex: 100,
         }}
       >
         Comments for this content
@@ -148,10 +190,11 @@ const Comments = ({ comments, uuid }) => {
   );
 };
 
-const PostComments = ({ uuid, websiteId }) => {
+const PostComments = ({ uuid, websiteId, refetch }) => {
   const [comment, setComment] = React.useState([]);
   const [rating, setRating] = React.useState(0);
   const [isRatingsLoading, setIsRatingsLoading] = React.useState(true);
+  const [tag, setTag] = React.useState();
 
   useEffect(() => {
     // get my ratings
@@ -173,28 +216,69 @@ const PostComments = ({ uuid, websiteId }) => {
             setRating(Number(data.ratings));
           }
           setIsRatingsLoading(false);
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: 'Error',
+            text: 'Something went wrong',
+            icon: 'error',
+          });
         });
     }
   }, [websiteId, uuid]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch(`${baseUrl}/comment/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        text: comment,
-        websiteId,
-        userId: uuid,
-      }),
-    }).then((res) => {
-      if (res.status === 200) {
-        setComment('');
-      }
-    });
-
+    if (comment) {
+      await fetch(`${baseUrl}/comment/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: comment,
+          websiteId,
+          userId: uuid,
+        }),
+      })
+        .then((res) => {
+          if (res.status === 201) {
+            setComment('');
+          }
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: 'Error',
+            text: 'Something went wrong',
+            icon: 'error',
+          });
+        });
+    }
+    if (tag) {
+      await fetch(`${baseUrl}/tag/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: tag,
+          websiteId,
+          userId: uuid,
+        }),
+      })
+        .then((res) => {
+          if (res.status === 201) {
+            setTag('');
+          }
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: 'Error',
+            text: 'Something went wrong',
+            icon: 'error',
+          });
+        });
+    }
     await fetch(`${baseUrl}/rating/`, {
       method: 'POST',
       headers: {
@@ -205,13 +289,32 @@ const PostComments = ({ uuid, websiteId }) => {
         websiteId,
         userId: uuid,
       }),
-    }).then((res) => {
-      if (res.status === 201) {
-        alert('Thanks for your feedback!');
-      } else {
-        alert('Something went wrong!');
-      }
-    });
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          Swal.fire({
+            title: 'Success',
+            text: 'Your views about the post have been submitted',
+            icon: 'success',
+            confirmButtonText: 'OK',
+          });
+          refetch((prev) => prev + 1);
+        } else {
+          Swal.fire({
+            title: 'Error',
+            text: 'Your views about the post have not been submitted',
+            icon: 'error',
+            confirmButtonText: 'OK',
+          });
+        }
+      })
+      .catch((err) => {
+        Swal.fire({
+          title: 'Error',
+          text: 'Something went wrong',
+          icon: 'error',
+        });
+      });
   };
 
   const handleChange = (e) => {
@@ -225,8 +328,13 @@ const PostComments = ({ uuid, websiteId }) => {
       }}
       onSubmit={handleSubmit}
     >
-      <p>
-        <strong>What do you think about the content</strong>
+      <p
+        style={{
+          fontWeight: 'bold',
+          fontSize: '18px',
+        }}
+      >
+        What do you think about the content
       </p>
       {isRatingsLoading ? (
         <div>Loading...</div>
@@ -248,6 +356,7 @@ const PostComments = ({ uuid, websiteId }) => {
           borderBottom: '1px solid gray',
           padding: '5px',
         }}
+        value={comment}
         type="text"
         placeholder="Enter a comment.."
         onChange={handleChange}
@@ -255,9 +364,16 @@ const PostComments = ({ uuid, websiteId }) => {
       <div
         style={{
           display: 'flex',
-          justifyContent: 'flex-end',
+          justifyContent: 'space-between',
         }}
       >
+        <div
+          style={{
+            flex: '1',
+          }}
+        >
+          <Select menuPlacement="top" options={options} />
+        </div>
         <button
           style={{
             border: 'none',
@@ -282,6 +398,7 @@ const Root = ({ uuid }) => {
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
   };
+  const [_, refetch] = React.useState(0);
   const [isRatingsLoading, setIsRatingsLoading] = React.useState(true);
   const [isCommentsLoading, setIsCommentsLoading] = React.useState(true);
   const [comments, setComments] = React.useState([]);
@@ -295,6 +412,7 @@ const Root = ({ uuid }) => {
         websites: [
           {
             url: window.location.href,
+            key: window.location.href,
           },
         ],
       }),
@@ -303,7 +421,14 @@ const Root = ({ uuid }) => {
       },
     })
       .then((res) => res.json())
-      .then((data) => setWebsiteId(data[0].id));
+      .then((data) => setWebsiteId(data[0].id))
+      .catch((err) => {
+        Swal.fire({
+          title: 'Error',
+          text: 'Something went wrong',
+          icon: 'error',
+        });
+      });
   }, [isOpen]);
 
   useEffect(() => {
@@ -313,6 +438,13 @@ const Root = ({ uuid }) => {
         .then((data) => {
           setRatings(Number(data));
           setIsRatingsLoading(false);
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: 'Error',
+            text: 'Something went wrong',
+            icon: 'error',
+          });
         });
       fetch(`http://localhost:3000/comment/${websiteId}`, {
         method: 'POST',
@@ -328,13 +460,22 @@ const Root = ({ uuid }) => {
           console.log(data);
           setComments(data);
           setIsCommentsLoading(false);
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: 'Error',
+            text: 'Your comments have not been submitted',
+            icon: 'error',
+            confirmButtonText: 'OK',
+          });
         });
     }
-  }, [websiteId, uuid]);
+  }, [websiteId, uuid, _]);
 
   return (
-    <>
+    <div id="side-drawer">
       <button
+        id="side-drawer-button"
         style={{
           position: 'fixed',
           right: '20px',
@@ -372,16 +513,14 @@ const Root = ({ uuid }) => {
         ) : (
           <AverageRatings ratings={ratings} />
         )}
-        <hr />
         {isCommentsLoading ? (
           <span>Loading...</span>
         ) : (
           <Comments uuid={uuid} comments={comments} />
         )}
-        <hr />
-        <PostComments uuid={uuid} websiteId={websiteId} />
+        <PostComments refetch={refetch} uuid={uuid} websiteId={websiteId} />
       </Drawer>
-    </>
+    </div>
   );
 };
 
