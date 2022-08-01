@@ -21,7 +21,7 @@ They are
 Give it a try and stay tuned for the chrome version(the developer account is under review) which was the preferred platform and has the hooking and export/import hooks as well
 
 > Meanwhile for the curious ones follow the steps mentioned [here](https://haridarshan.hashnode.dev/introducing-hookmark#heading-using-the-frontend) to use the 
-> extension even before it is available to the public (only chrome,  that's what we need though 😊)
+> extension even before it is available to the public (only for chrome users, however that's what we need now 😊)
 
 
 ## Run Locally
