@@ -8,7 +8,7 @@ Firefox extension was under review, it is now available here https://addons.mozi
 > it doesn't support the hooking and exporting feature in firefox as it was mainly intended for chrome but the rest of the features (fortunately all the  major ones) are 
 > available
 
-They are
+They available features for firefox are:
 1. **Rating and adding comments for websites**
 2. **Getting the ratings and comments on hover**
 3. **Getting recommendations to the right side with the newly found ratings**
