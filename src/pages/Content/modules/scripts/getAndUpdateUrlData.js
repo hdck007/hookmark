@@ -130,6 +130,7 @@ export default function getAndUpdateUrlData() {
       recommender.style.backgroundColor = 'black';
       recommender.style.top = '20%';
       recommender.style.right = '0';
+      recommender.id = 'recommender-42';
       const button = document.createElement('button');
       button.innerText = 'Close';
       button.style.position = 'absolute';

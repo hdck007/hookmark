@@ -42910,7 +42910,7 @@ const Root = ({
     open: isOpen,
     onClose: toggleDrawer,
     direction: "right",
-    className: "bla bla bla"
+    id: "side-drawer-content"
   }, isRatingsLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "Loading...") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_averageratings__WEBPACK_IMPORTED_MODULE_7__["default"], {
     ratings: ratings
   }), isCommentsLoading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "Loading...") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_comment__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -43668,6 +43668,7 @@ function getAndUpdateUrlData() {
     recommender.style.backgroundColor = 'black';
     recommender.style.top = '20%';
     recommender.style.right = '0';
+    recommender.id = 'recommender-42';
     const button = document.createElement('button');
     button.innerText = 'Close';
     button.style.position = 'absolute';
@@ -48243,7 +48244,7 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("c5febe8b5286c59763aa")
+/******/ 		__webpack_require__.h = () => ("c90d4c769a99767ad956")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/harmony module decorator */

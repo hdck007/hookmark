@@ -122,7 +122,7 @@ const Root = ({ uuid }) => {
         open={isOpen}
         onClose={toggleDrawer}
         direction="right"
-        className="bla bla bla"
+        id="side-drawer-content"
       >
         {isRatingsLoading ? (
           <span>Loading...</span>
