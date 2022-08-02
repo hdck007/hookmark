@@ -21,6 +21,10 @@
   color: aquamarine;
 }
 
+#recommender-text {
+  color: white !important;
+}
+
 #side-drawer {
   font-family: 'Poppins', sans-serif !important;
   color: black !important;

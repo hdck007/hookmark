@@ -43655,7 +43655,7 @@ function getAndUpdateUrlData() {
       recommenderString = recommenderString + `
               <div class="recommender-element">
                 <a href="${currentstate.url}">
-                  <p>${currentstate.title.replace('<', '&#60;').replace('>', '&#62;')}</p>
+                  <p id="recommender-text">${currentstate.title.replace('<', '&#60;').replace('>', '&#62;')}</p>
                   <p class="recommender-rating" >${currentstate.averageRating ? 'Ratings: ' + currentstate.averageRating + '/5' : 'No ratings'}</p>
                 </a>
               </div>
@@ -48244,7 +48244,7 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("c90d4c769a99767ad956")
+/******/ 		__webpack_require__.h = () => ("036165b497577bfc43c3")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/harmony module decorator */

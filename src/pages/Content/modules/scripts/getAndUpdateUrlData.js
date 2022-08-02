@@ -112,7 +112,7 @@ export default function getAndUpdateUrlData() {
           `
               <div class="recommender-element">
                 <a href="${currentstate.url}">
-                  <p>${currentstate.title
+                  <p id="recommender-text">${currentstate.title
             .replace('<', '&#60;')
             .replace('>', '&#62;')}</p>
                   <p class="recommender-rating" >${currentstate.averageRating
