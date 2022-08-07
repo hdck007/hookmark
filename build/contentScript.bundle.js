@@ -42894,7 +42894,7 @@ const Root = ({
       background: 'white',
       border: 'none',
       boxShadow: '1px 1px 3px rgba(0,0,0,0.5)',
-      zIndex: 1000000000000000000000000000
+      zIndex: 10000000000
     },
     onClick: toggleDrawer
   }, isOpen ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_icons_bs__WEBPACK_IMPORTED_MODULE_8__.BsChevronDoubleRight, null) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_icons_bs__WEBPACK_IMPORTED_MODULE_8__.BsChevronDoubleLeft, null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_modern_drawer__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -48244,7 +48244,7 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("2f645b0a1b4ffb5e02dc")
+/******/ 		__webpack_require__.h = () => ("187771201badfd0ca888")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/harmony module decorator */
