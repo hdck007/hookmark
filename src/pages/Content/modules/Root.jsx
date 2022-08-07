@@ -103,7 +103,7 @@ const Root = ({ uuid }) => {
           background: 'white',
           border: 'none',
           boxShadow: '1px 1px 3px rgba(0,0,0,0.5)',
-          zIndex: 100000,
+          zIndex: 1000000000000000000000000000,
         }}
         onClick={toggleDrawer}
       >
