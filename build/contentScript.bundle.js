@@ -42649,7 +42649,6 @@ if (window.location.href.includes('google.com')) {
 }
 
 chrome.runtime.onMessage.addListener(async function (message, sender, sendResponse) {
-  console.log(message);
   await chrome.storage.local.get(['uuid'], result => {
     if (result?.uuid) {
       switch (message.type) {
@@ -48244,7 +48243,7 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("187771201badfd0ca888")
+/******/ 		__webpack_require__.h = () => ("edbda46045745e9c71db")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/harmony module decorator */

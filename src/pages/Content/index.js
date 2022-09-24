@@ -31,7 +31,6 @@ chrome.runtime.onMessage.addListener(async function (
   sender,
   sendResponse
 ) {
-  console.log(message);
   await chrome.storage.local.get(['uuid'], (result) => {
     if (result?.uuid) {
       switch (message.type) {
