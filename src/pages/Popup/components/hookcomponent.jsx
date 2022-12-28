@@ -4,6 +4,9 @@ import baseUrl from '../../Content/modules/constants';
 const HookComponent = ({ uuid }) => {
   const [hooks, setHooks] = React.useState([]);
   const [_, refetch] = React.useState(0);
+  const [filtered, setFiltered] = React.useState([]);
+  const [showFiltered, setShowFiltered] = React.useState(false);
+  const [search, setSearch] = React.useState('');
 
   React.useEffect(() => {
     if (uuid) {
@@ -20,6 +23,37 @@ const HookComponent = ({ uuid }) => {
         });
     }
   }, [_, uuid]);
+
+  const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  };
+
+  const debouncedStateSearch = React.useCallback(
+    debounce((event) => {
+      console.log(event.target.value);
+      if (event.target.value.trim() === '') {
+        setSearch('');
+        setFiltered([]);
+        setShowFiltered(false);
+        return;
+      }
+      const newFiltered = hooks.filter((hook) => {
+        return hook.title.includes(event.target.value.trim());
+      });
+      setSearch(event.target.value);
+      setFiltered(newFiltered);
+      setShowFiltered(true);
+    }, 500),
+    [hooks]
+  );
 
   const handleHookClick = (hook) => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -64,15 +98,56 @@ const HookComponent = ({ uuid }) => {
       >
         Hook it!
       </button>
-      {Boolean(hooks.length) &&
-        hooks.map((hook) => (
+      <h1>Your saved hookmarks!</h1>
+      <input
+        name="id"
+        type="text"
+        placeholder="Search your bookmarks"
+        onChange={debouncedStateSearch}
+        style={{
+          width: '85%',
+          margin: '10px',
+          borderRadius: '50px 50px 0 0',
+          padding: '10px',
+          border: 'none',
+          outline: 'none',
+          borderBottom: '1px solid #00bcd4',
+        }}
+      />
+      {showFiltered &&
+        (!!filtered.length ? (
+          filtered.map((hook) => (
+            <div
+              style={{
+                width: '90%',
+                cursor: 'pointer',
+              }}
+              key={hook.baseuri}
+              onClick={() => handleHookClick(hook)}
+            >
+              <p>
+                <span
+                  style={{
+                    color: '#00bcd4',
+                    padding: '5px 10px',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    fontSize: '16px',
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {hook.title}
+                </span>
+              </p>
+            </div>
+          ))
+        ) : (
           <div
             style={{
               width: '90%',
               cursor: 'pointer',
             }}
-            key={hook.baseuri}
-            onClick={() => handleHookClick(hook)}
           >
             <p>
               <span
@@ -86,7 +161,66 @@ const HookComponent = ({ uuid }) => {
                   overflow: 'hidden',
                 }}
               >
-                {hook.title}
+                No results found for the query{' '}
+                <span
+                  style={{
+                    color: 'black',
+                  }}
+                >
+                  "{search}"
+                </span>
+              </span>
+            </p>
+          </div>
+        ))}
+      {!showFiltered &&
+        (Boolean(hooks.length) ? (
+          hooks.map((hook) => (
+            <div
+              style={{
+                width: '90%',
+                cursor: 'pointer',
+              }}
+              key={hook.baseuri}
+              onClick={() => handleHookClick(hook)}
+            >
+              <p>
+                <span
+                  style={{
+                    color: '#00bcd4',
+                    padding: '5px 10px',
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    fontSize: '16px',
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {hook.title}
+                </span>
+              </p>
+            </div>
+          ))
+        ) : (
+          <div
+            style={{
+              width: '90%',
+              cursor: 'pointer',
+            }}
+          >
+            <p>
+              <span
+                style={{
+                  color: '#00bcd4',
+                  padding: '5px 10px',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  fontSize: '16px',
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                }}
+              >
+                Ohh its empty hook to something now!
               </span>
             </p>
           </div>

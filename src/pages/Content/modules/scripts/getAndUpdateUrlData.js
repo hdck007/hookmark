@@ -48,13 +48,18 @@ export default function getAndUpdateUrlData() {
   for (let i = 0; i < elements.length; i++) {
     const element = elements[i].parentElement;
     const url = element.getAttribute('href');
+    console.log(window.location.href);
     const currrentUrl = new URL(window.location.href);
     if (url) {
-      const urlObject = new URL(url);
-      urls.push({
-        url: url.replace(urlObject.hash, ''),
-        key: currrentUrl.searchParams.get('q'),
-      });
+      try {
+        const urlObject = new URL(url);
+        urls.push({
+          url: url.replace(urlObject.hash, ''),
+          key: currrentUrl.searchParams.get('q'),
+        });
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
   //----------------------------------------------
