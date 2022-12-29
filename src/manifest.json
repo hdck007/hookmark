@@ -4,6 +4,9 @@
   "description": "A chrome extension built so that you can save your time finding valuable resources online and get hooked to them",
   "permissions": ["tabs", "storage"],
   "background": { "service_worker": "background.bundle.js" },
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icon-34.png"

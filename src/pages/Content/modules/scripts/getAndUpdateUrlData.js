@@ -1,4 +1,33 @@
-import baseUrl from "../constants";
+import baseUrl from '../constants';
+import createHoverElement from './elements/hoverelement';
+import createButtonElement from './elements/buttonelement';
+import createRecommenderModal from './elements/recommendermodal';
+
+function getRecommenderInnerHTML(recommenderArr) {
+  recommenderArr.sort((a, b) => {
+    return Number(b.averageRating) - Number(a.averageRating);
+  });
+  let recommenderString = '';
+  recommenderArr.forEach((currentstate) => {
+    recommenderString =
+      recommenderString +
+      `
+          <div class="recommender-element">
+            <a href="${currentstate.url}">
+              <p id="recommender-text">${currentstate.title
+                .replace('<', '&#60;')
+                .replace('>', '&#62;')}</p>
+              <p class="recommender-rating" >${
+                currentstate.averageRating
+                  ? 'Ratings: ' + currentstate.averageRating + '/5'
+                  : 'No ratings'
+              }</p>
+            </a>
+          </div>
+        `;
+  });
+  return recommenderString;
+}
 
 export default function getAndUpdateUrlData() {
   const elements = document.querySelectorAll('a h3');
@@ -13,19 +42,28 @@ export default function getAndUpdateUrlData() {
     color: #ffb400;
   }`;
   document.body.appendChild(style);
+
+  // extracating the url data to send in the request
   const urls = [];
   for (let i = 0; i < elements.length; i++) {
     const element = elements[i].parentElement;
     const url = element.getAttribute('href');
+    console.log(window.location.href);
     const currrentUrl = new URL(window.location.href);
     if (url) {
-      const urlObject = new URL(url);
-      urls.push({
-        url: url.replace(urlObject.hash, ''),
-        key: currrentUrl.searchParams.get('q'),
-      });
+      try {
+        const urlObject = new URL(url);
+        urls.push({
+          url: url.replace(urlObject.hash, ''),
+          key: currrentUrl.searchParams.get('q'),
+        });
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
+  //----------------------------------------------
+
   fetch(`${baseUrl}/website/`, {
     method: 'POST',
     body: JSON.stringify({
@@ -38,49 +76,7 @@ export default function getAndUpdateUrlData() {
     .then((res) => res.json())
     .then((data) => {
       data.forEach((element, index) => {
-        const hoverElement = document.createElement('div');
-        hoverElement.style.position = 'absolute';
-        hoverElement.style.bottom = '105%';
-        hoverElement.style.left = '0';
-        hoverElement.style.width = 400 + 'px';
-        hoverElement.style.zIndex = 10000;
-        hoverElement.style.borderRadius = '5px';
-        hoverElement.style.backgroundColor = 'red';
-        // hoverElement.style.display = 'none';
-        hoverElement.innerHTML = `
-          <style>
-          .most-liked{
-            font-size: 16px;
-            font-weight: bold;
-          }
-            .hover-element-ext-42{
-              font-size: 14px;
-              z-index: 9999;
-              border-radius: 5px;
-              color: #fff;
-              padding: 10px;
-              background: black;
-              pointer-events: none;
-              position: absolute;
-              bottom: 100%;
-              left: 0;
-            }
-          </style>
-          <div class="hover-element-ext-42">
-            <p>${element.averageRating
-            ? 'Ratings: ' + element.averageRating + '/5'
-            : 'No ratings'
-          }</p>
-            ${element?.comments?.length
-            ? '<p class="most-liked">Most liked comment</p>'
-            : ''
-          }
-            <p>${element?.comments?.length
-            ? element.comments[0].data
-            : 'No comments'
-          }</p>
-          </div>
-        `;
+        const hoverElement = createHoverElement(element);
         const currentRecommendation = {
           ...element,
           title: elements[index].innerText,
@@ -102,48 +98,12 @@ export default function getAndUpdateUrlData() {
           }
         });
       });
-      myRecommender.sort((a, b) => {
-        return Number(b.averageRating) - Number(a.averageRating);
-      });
-      let recommenderString = '';
-      myRecommender.forEach((currentstate) => {
-        recommenderString =
-          recommenderString +
-          `
-              <div class="recommender-element">
-                <a href="${currentstate.url}">
-                  <p id="recommender-text">${currentstate.title
-            .replace('<', '&#60;')
-            .replace('>', '&#62;')}</p>
-                  <p class="recommender-rating" >${currentstate.averageRating
-            ? 'Ratings: ' + currentstate.averageRating + '/5'
-            : 'No ratings'
-          }</p>
-                </a>
-              </div>
-            `;
-      });
-      const recommender = document.createElement('div');
-      recommender.innerHTML = recommenderString;
-      recommender.style.position = 'absolute';
-      recommender.style.padding = '10px';
-      recommender.style.backgroundColor = 'black';
-      recommender.style.top = '20%';
-      recommender.style.right = '0';
-      recommender.id = 'recommender-42';
-      const button = document.createElement('button');
-      button.innerText = 'Close';
-      button.style.position = 'absolute';
-      button.style.top = '15%';
-      button.style.zIndex = 9999;
-      button.style.right = '10px';
-      button.style.backgroundColor = 'black';
-      button.style.color = 'white';
-      button.style.border = 'none';
-      button.style.padding = '10px 20px';
-      button.style.borderRadius = '500px';
-      button.style.fontSize = '20px';
-      button.addEventListener('click', (e) => {
+
+      const recommenderString = getRecommenderInnerHTML([...myRecommender]);
+      const recommender = createRecommenderModal(recommenderString);
+
+      // createButton(clickListener)
+      const button = createButtonElement((e) => {
         if (button.innerText === 'Close') {
           recommender.style.display = 'none';
           button.innerText = 'Open';
@@ -151,22 +111,8 @@ export default function getAndUpdateUrlData() {
           recommender.style.display = 'block';
           button.innerText = 'Close';
         }
-      })
-      document.body.appendChild(button);
-      recommender.addEventListener('click', (e) => {
-        e.preventDefault();
-        try {
-          const element = document.querySelector(
-            `[data-link="${e.target.innerText}"]`
-          );
-          element?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-          });
-        } catch (error) {
-          console.error(error);
-        }
       });
+      document.body.appendChild(button);
       document.body.appendChild(recommender);
     });
 }
