@@ -100,9 +100,14 @@ const GridView = ({ uuid }) => {
         )}
       </form>
       <div className="flex flex-wrap justify-around m-auto gap-4 p-4">
-        {hooks?.length === 0 && (
+        {searched && hooks?.length === 0 && (
           <div className="w-full text-center text-stone-300">
             <p className="text-2xl">Search didn't yield any result</p>
+          </div>
+        )}
+        {!searched && hooks?.length === 0 && (
+          <div className="w-full text-center text-stone-300">
+            <p className="text-2xl">No hooks created</p>
           </div>
         )}
         {hooks?.length &&
