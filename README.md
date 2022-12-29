@@ -3,25 +3,30 @@
 
 An extension for rating the web and making your browsing experience better than ever. Read more about it [here](https://haridarshan.hashnode.dev/introducing-hookmark)
 
-### Update
-Firefox extension was under review, it is now available here https://addons.mozilla.org/en-US/firefox/addon/hookmark/ 
-> it doesn't support the hooking and exporting feature in firefox as it was mainly intended for chrome but the rest of the features (fortunately all the  major ones) are 
-> available
-
-The available features for firefox are:
-1. **Rating and adding comments for websites**
-2. **Getting the ratings and comments on hover**
-3. **Getting recommendations to the right side with the newly found ratings**
-4. **Like the comments**
-
-**Basically all the functionality with all fine details except for the below popup**
-
-![image.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1659367243179/Yz4gdf2oW_.png)
-
-Give it a try and stay tuned for the chrome version(the developer account is under review) which was the preferred platform and has the hooking and export/import hooks as well
-
 > Meanwhile for the curious ones follow the steps mentioned [here](https://haridarshan.hashnode.dev/introducing-hookmark#heading-using-the-frontend) to use the 
 > extension even before it is available to the public (only for chrome users, however that's what we need now 😊)
+
+## Images
+
+### Newtab
+![image](https://user-images.githubusercontent.com/68905333/209943062-d5968463-7dde-4af4-9859-d334ac96ee80.png)
+
+![image](https://user-images.githubusercontent.com/68905333/209943989-7ffe65ac-1802-4c8a-bc4a-381b9d5c8ed4.png)
+
+
+
+### Popup
+![image](https://user-images.githubusercontent.com/68905333/209943440-51456e1b-f783-4d8f-b237-33eff1a66d1a.png)
+
+
+
+### Suggestions while browsing
+![image](https://user-images.githubusercontent.com/68905333/209943379-c91b1185-2a71-4d17-909f-0f8fa25df307.png)
+
+
+
+### Reviews and ratings on hover
+![image](https://user-images.githubusercontent.com/68905333/209943572-8a82c58f-c191-406b-bab1-ee744154497b.png)
 
 
 ## Run Locally
