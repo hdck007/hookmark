@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import HookComponent from './components/hookcomponent';
 import ImportComponent from './components/importidcomponent';
 import './Popup.css';
+import SettingsComponent from '../Newtab/components/settings';
 
 const Popup = () => {
   const [activeTab, setActiveTab] = React.useState('hook');
@@ -15,37 +16,24 @@ const Popup = () => {
   }, []);
 
   return (
-    <div>
-      <div
-        style={{
-          width: '100%',
-          display: 'flex',
-        }}
-      >
+    <div className="bg-stone-900 w-screen min-h-screen">
+      <div className="flex w-full">
         <div
-          style={{
-            width: '50%',
-            fontSize: '18px',
-            padding: '5px 0',
-            cursor: 'pointer',
-            textAlign: 'center',
-            color: activeTab === 'hook' ? '#00bcd4' : '#000',
-            borderBottom: '1px solid black',
-          }}
+          className={
+            activeTab === 'hook'
+              ? 'w-1/2 transition-all text-lg border-b-2 border-purple-700 text-center p-2 cursor-pointer text-purple-300'
+              : 'w-1/2 transition-all text-lg border-b-2 border-stone-700 text-center p-2 cursor-pointer text-stone-300'
+          }
           onClick={() => setActiveTab('hook')}
         >
           Hook
         </div>
         <div
-          style={{
-            width: '50%',
-            textAlign: 'center',
-            padding: '5px 0',
-            cursor: 'pointer',
-            fontSize: '18px',
-            color: activeTab === 'settings' ? '#00bcd4' : '#000',
-            borderBottom: '1px solid black',
-          }}
+          className={
+            activeTab === 'hook'
+              ? 'w-1/2 transition-all text-lg border-b-2 border-stone-700 text-center p-2 cursor-pointer text-stone-300'
+              : 'w-1/2 transition-all text-lg border-b-2 border-purple-700 text-center p-2 cursor-pointer text-purple-300'
+          }
           onClick={() => setActiveTab('settings')}
         >
           Settings
@@ -54,7 +42,7 @@ const Popup = () => {
       {activeTab === 'hook' ? (
         <HookComponent uuid={uuid} />
       ) : (
-        <ImportComponent />
+        <SettingsComponent />
       )}
     </div>
   );

@@ -1,7 +1,6 @@
 import React from 'react';
 import Sidebar from './components/sidebar';
 import GridView from './components/gridview';
-import { Grid } from '@geist-ui/core';
 
 const Wrapper = () => {
   const [uuid, setUuid] = React.useState('');
@@ -26,7 +25,7 @@ const Wrapper = () => {
 
 export default function App() {
   return (
-    <div className="bg-stone-900 w-screen min-h-screen">
+    <div className="bg-stone-900 min-w-screen min-h-screen">
       <Wrapper />
     </div>
   );

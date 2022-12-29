@@ -14,9 +14,7 @@ const useCustomFetch = (url) => {
       } catch (error) {
         setError(error);
       } finally {
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000);
+        setLoading(false);
       }
     };
     fetchData();

@@ -74,26 +74,9 @@ const HookComponent = ({ uuid }) => {
     });
   };
   return (
-    <div
-      style={{
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
+    <div className="w-full flex flex-col items-center">
       <button
-        style={{
-          width: '90%',
-          margin: '5px',
-          borderRadius: '50px',
-          padding: '5px',
-          textAlign: 'center',
-          border: 'none',
-          backgroundColor: 'orange',
-          color: 'white',
-          cursor: 'pointer',
-        }}
+        className="w-[90%] m-1 mt-4 rounded-full py-2 text-center bg-purple-500 text-white cursor-pointer"
         onClick={handleHookIt}
       >
         Hook it!
@@ -104,71 +87,29 @@ const HookComponent = ({ uuid }) => {
         type="text"
         placeholder="Search your bookmarks"
         onChange={debouncedStateSearch}
-        style={{
-          width: '85%',
-          margin: '10px',
-          borderRadius: '50px 50px 0 0',
-          padding: '10px',
-          border: 'none',
-          outline: 'none',
-          borderBottom: '1px solid #00bcd4',
-        }}
+        className="w-[90%] m-1 my-4 rounded-full py-2 px-4 border-none outline-none bg-stone-800 text-white"
       />
       {showFiltered &&
         (!!filtered.length ? (
           filtered.map((hook) => (
             <div
-              style={{
-                width: '90%',
-                cursor: 'pointer',
-              }}
+              className="w-[90%] cursor-pointer"
               key={hook.baseuri}
               onClick={() => handleHookClick(hook)}
             >
               <p>
-                <span
-                  style={{
-                    color: '#00bcd4',
-                    padding: '5px 10px',
-                    display: '-webkit-box',
-                    WebkitLineClamp: 2,
-                    fontSize: '16px',
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                  }}
-                >
+                <span className="text-purple-500 p-1 py-2 text-base overflow-hidden">
                   {hook.title}
                 </span>
               </p>
             </div>
           ))
         ) : (
-          <div
-            style={{
-              width: '90%',
-              cursor: 'pointer',
-            }}
-          >
+          <div className="w-[90%] cursor-pointer">
             <p>
-              <span
-                style={{
-                  color: '#00bcd4',
-                  padding: '5px 10px',
-                  display: '-webkit-box',
-                  WebkitLineClamp: 2,
-                  fontSize: '16px',
-                  WebkitBoxOrient: 'vertical',
-                  overflow: 'hidden',
-                }}
-              >
+              <span className="text-purple-500 p-1 py-2 text-base overflow-hidden">
                 No results found for the query{' '}
-                <span
-                  style={{
-                    color: 'black',
-                  }}
-                >
-                  "{search}"
-                </span>
+                <span className="text-purple-300 font-bold">"{search}"</span>
               </span>
             </p>
           </div>
@@ -177,49 +118,19 @@ const HookComponent = ({ uuid }) => {
         (Boolean(hooks.length) ? (
           hooks.map((hook) => (
             <div
-              style={{
-                width: '90%',
-                cursor: 'pointer',
-              }}
+              className="w-[90%] cursor-pointer"
               key={hook.baseuri}
               onClick={() => handleHookClick(hook)}
             >
-              <p>
-                <span
-                  style={{
-                    color: '#00bcd4',
-                    padding: '5px 10px',
-                    display: '-webkit-box',
-                    WebkitLineClamp: 2,
-                    fontSize: '16px',
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                  }}
-                >
-                  {hook.title}
-                </span>
+              <p className="text-purple-500 p-1 py-2 text-base overflow-hidden">
+                {hook.title}
               </p>
             </div>
           ))
         ) : (
-          <div
-            style={{
-              width: '90%',
-              cursor: 'pointer',
-            }}
-          >
+          <div className="w-[90%] cursor-pointer">
             <p>
-              <span
-                style={{
-                  color: '#00bcd4',
-                  padding: '5px 10px',
-                  display: '-webkit-box',
-                  WebkitLineClamp: 2,
-                  fontSize: '16px',
-                  WebkitBoxOrient: 'vertical',
-                  overflow: 'hidden',
-                }}
-              >
+              <span className="text-stone-400 p-1 py-2 text-base overflow-hidden">
                 Ohh its empty hook to something now!
               </span>
             </p>

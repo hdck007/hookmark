@@ -1,4 +1,3 @@
-import { Text } from '@geist-ui/core';
 import Settings from '@geist-ui/icons/settings';
 import React from 'react';
 import SettingsComponent from './settings';
