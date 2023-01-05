@@ -77,7 +77,7 @@ const GridView = ({ uuid }) => {
         <input
           type="text"
           className="w-full bg-stone-800 text-stone-100 p-2 px-4 rounded-full outline-none border-2 border-stone-900 focus:border-2 focus:border-purple-500"
-          placeholder="Search"
+          placeholder="Search your bookmarks"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />

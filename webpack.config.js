@@ -53,6 +53,14 @@ var options = {
   module: {
     rules: [
       {
+        test: /\.(svg|eot|ttf|woff|woff2)$/,
+        use: [
+          {
+            loader: 'url-loader',
+          },
+        ],
+      },
+      {
         // look for .css or .scss files
         test: /\.(css|scss)$/,
         // in the `src` directory
@@ -137,15 +145,6 @@ var options = {
       patterns: [
         {
           from: 'src/pages/Content/content.styles.css',
-          to: path.join(__dirname, 'build'),
-          force: true,
-        },
-      ],
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: 'src/pages/Newtab/newtab.styles.css',
           to: path.join(__dirname, 'build'),
           force: true,
         },
