@@ -1,29 +1,67 @@
 import React from 'react';
 import baseUrl from '../../Content/modules/constants';
 import BookmarkCard from './bookmarkcard';
-import { FullScreenClose, Search, X } from '@geist-ui/icons';
+import { Search, X } from '@geist-ui/icons';
+import { useCallback } from 'react';
+
+async function getList(pageNum, limit, uuid) {
+  return await fetch(
+    `${baseUrl}/hookmark/${uuid}?pageNum=${pageNum}&limit=${limit}`
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      const hookMap = data.map((hook) => {
+        return {
+          ...hook,
+          title: hook.title ? hook.title : hook.baseuri,
+        };
+      });
+      return hookMap;
+    });
+}
 
 const GridView = ({ uuid }) => {
   const [hooks, setHooks] = React.useState([]);
   const [search, setSearch] = React.useState('');
   const [_, refetch] = React.useState(false);
   const [searched, setSearched] = React.useState(false);
+  const [page, setPage] = React.useState(1);
+  const [loading, setLoading] = React.useState(true);
+  const loader = React.useRef(null);
+
+  const handleObserver = useCallback((entries) => {
+    const target = entries[0];
+    if (target.isIntersecting) {
+      console.log('visible');
+      setPage((prev) => prev + 1);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    };
+
+    const observer = new IntersectionObserver(handleObserver, options);
+    if (loader.current) {
+      observer.observe(loader.current);
+    }
+  }, [handleObserver]);
 
   React.useEffect(() => {
     if (uuid) {
-      fetch(`${baseUrl}/hookmark/${uuid}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const hookMap = data.map((hook) => {
-            return {
-              ...hook,
-              title: hook.title ? hook.title : hook.baseuri,
-            };
-          });
-          setHooks(hookMap);
-        });
+      getList(page, 10, uuid).then((data) => {
+        if (data.length) {
+          setHooks((prev) => [...prev, ...data]);
+        } else {
+          console.log('no more data');
+          setLoading(false);
+        }
+      });
     }
-  }, [_, uuid]);
+  }, [_, uuid, page]);
 
   const handleCancel = () => {
     setSearch('');
@@ -116,6 +154,35 @@ const GridView = ({ uuid }) => {
           <div className="w-[350px] sm:w-[48%] md:w-[31%]"></div>
         ))}
       </div>
+      {loading && (
+        <>
+          <div className="w-full flex justify-center py-10 items-center">
+            <span className="scale-150">
+              <svg
+                className="animate-spin -ml-1 mr-3 h-5 w-5 text-purple-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8z"
+                ></path>
+              </svg>
+            </span>
+          </div>
+          <div ref={loader} />
+        </>
+      )}
     </div>
   );
 };
