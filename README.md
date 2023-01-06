@@ -9,10 +9,7 @@ An extension for rating the web and making your browsing experience better than 
 ## Images
 
 ### Newtab
-![image](https://user-images.githubusercontent.com/68905333/209943062-d5968463-7dde-4af4-9859-d334ac96ee80.png)
-
-![image](https://user-images.githubusercontent.com/68905333/209943989-7ffe65ac-1802-4c8a-bc4a-381b9d5c8ed4.png)
-
+![image](https://user-images.githubusercontent.com/68905333/210999306-bcee7347-f160-4ee7-a6af-b73441fbd4a1.png)
 
 
 ### Popup
