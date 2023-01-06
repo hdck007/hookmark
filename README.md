@@ -3,8 +3,7 @@
 
 An extension for rating the web and making your browsing experience better than ever. Read more about it [here](https://haridarshan.hashnode.dev/introducing-hookmark)
 
-> Meanwhile for the curious ones follow the steps mentioned [here](https://haridarshan.hashnode.dev/introducing-hookmark#heading-using-the-frontend) to use the 
-> extension even before it is available to the public (only for chrome users, however that's what we need now 😊)
+> follow the steps mentioned [here](https://haridarshan.hashnode.dev/introducing-hookmark#heading-using-the-frontend) to use the extension 
 
 ## Images
 
@@ -56,6 +55,10 @@ Now follow steps mentioned here to bring the extension to life [click here](http
 ## Tech Stack
 
 - **React**
+
+## Additional features
+1. Infinite scroll
+2. Open Graph details scraper developed by me as a vercel edge function, the code is here [https://github.com/hdck007/open-graph-details-scraper-API](https://github.com/hdck007/open-graph-details-scraper-API)
 
 Powered by [Planetscale](https://planetscale.com/) and [Hashnode](https://hashnode.com/)
 
